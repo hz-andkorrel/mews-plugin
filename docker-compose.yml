@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  mews-plugin:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mews-plugin
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    restart: unless-stopped
+    # Uncomment if you need to mount volumes
+    # volumes:
+    #   - .:/app

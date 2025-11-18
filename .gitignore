@@ -1,0 +1,19 @@
+# The data directory contains user and application data
+data/
+
+# Environment variables with secrets (DO NOT COMMIT)
+.env
+**/.env
+
+# Go build artifacts
+*.exe
+*.test
+*.out
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+
+# OS files
+.DS_Store

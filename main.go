@@ -43,6 +43,7 @@ func main() {
 	// Setup HTTP server for webhooks
 	http.HandleFunc("/webhook", handleWebhook)
 	http.HandleFunc("/health", handleHealth)
+	http.HandleFunc("/render", handleRender)
 
 	port := getEnvOrDefault("WEBHOOK_PORT", "8080")
 	log.Printf("Webhook server listening on port %s", port)
@@ -76,6 +77,36 @@ func initRedis() {
 func handleHealth(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("OK"))
+}
+
+func handleRender(w http.ResponseWriter, r *http.Request) {
+	// Set CORS headers for Angular frontend
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+	// Handle preflight
+	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Read and serve the HTML file
+	html, err := os.ReadFile("index.html")
+	if err != nil {
+		log.Printf("Error reading index.html: %v", err)
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.WriteHeader(http.StatusOK)
+	w.Write(html)
 }
 
 func handleWebhook(w http.ResponseWriter, r *http.Request) {

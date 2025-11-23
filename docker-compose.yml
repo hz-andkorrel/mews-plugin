@@ -12,4 +12,6 @@ services:
       - REDIS_ADDR=host.docker.internal:6379
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    volumes:
+      - ./index.html:/app/index.html  # Mount HTML for live updates
     restart: unless-stopped  # Keep webhook server running

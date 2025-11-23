@@ -10,6 +10,7 @@ RUN go mod download && go mod verify
 
 # Copy source code
 COPY main.go ./
+COPY index.html ./
 
 # Build the application
 RUN go build -o mews-plugin main.go

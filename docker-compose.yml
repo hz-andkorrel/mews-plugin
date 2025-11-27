@@ -13,5 +13,5 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
-      - ./index.html:/app/index.html  # Mount HTML for live updates
+      - ./index.html:/app/index.html  # Mount HTML for development purposes
     restart: unless-stopped  # Keep webhook server running

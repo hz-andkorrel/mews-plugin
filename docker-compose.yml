@@ -13,6 +13,6 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
-      - ./frontend/index.html:/app/index.html  # Mount HTML for development purposes
+      - ./frontend/frontend-app/src/index.html:/app/index.html  # Mount Angular HTML for development purposes
       - ./backend/static:/app/static  # Mount static files if needed
     restart: unless-stopped  # Keep webhook server running

@@ -1,0 +1,18 @@
+services:
+  mews-plugin:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: mews-plugin
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./backend/.env
+    environment:
+      - REDIS_ADDR=host.docker.internal:6379
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./frontend/index.html:/app/index.html  # Mount HTML for development purposes
+      - ./backend/static:/app/static  # Mount static files if needed
+    restart: unless-stopped  # Keep webhook server running
